@@ -1,89 +1,102 @@
 {
-    "productos": [
+  "productos": [
+    {
+      "codigo_de_barras": 177851225,
+      "descripcion": "Mouse inalámbrico para computadora",
+      "id": 1,
+      "imagen_del_producto": "https://m.media-amazon.com/images/I/51eXBGX+MYL._AC_SL1500_.jpg",
+      "nombre": "Logitech G305",
+      "precio_de_venta": "500"
+    },
+    {
+      "id": "2",
+      "codigo_de_barras": "155519945",
+      "nombre": "Sceptre E205W-16003R",
+      "descripcion": "Monitor para computadora",
+      "imagen_del_producto": "https://m.media-amazon.com/images/I/51v6h2TfPCL._AC_SL1195_.jpg",
+      "precio_de_venta": "2397"
+    }
+  ],
+  "empleados": [
+    {
+      "apellido_materno": "Uribe",
+      "apellido_paterno": "Alcaraz",
+      "curp": "AAUY011010HBCLRNA3",
+      "fecha_ini": "27/02/12",
+      "fecha_nac": "10/10/01",
+      "id": "1",
+      "no_tel": "5555555555",
+      "nombre": "Ynot Andres",
+      "rfc": "XXXXXXXXX",
+      "sexo": "Masculino"
+    }
+  ],
+  "proveedores": [
+    {
+      "direccion": "Av. Guacali #2350",
+      "direccion_facturacion": "Av. Guacali #23500",
+      "email": "proveedores@gmail.com",
+      "forma_pago": "2",
+      "id": "1",
+      "nombre": "Alfredo Figueroa Sánchez",
+      "nombre_empresa": "Proveedores Inc.",
+      "telefono": "6862568625"
+    }
+  ],
+  "pagos": [
+    {
+      "id": "1",
+      "descripcion": "Efectivo"
+    },
+    {
+      "id": "2",
+      "descripcion": "Tarjeta de Crédito"
+    },
+    {
+      "id": "3",
+      "descripcion": "Cheque"
+    },
+    {
+      "id": "4",
+      "descripcion": "Transferencia bancaria"
+    }
+  ],
+  "ventas": [
+    {
+      "descuento": 15,
+      "fecha_venta": "12/03/2023",
+      "id": "1",
+      "metodo_pago": "1",
+      "productos": [
         {
-            "codigo_de_barras": 177851225,
-            "descripcion": "Mouse inalámbrico para computadora",
-            "id": 1,
-            "imagen_del_producto": "https://m.media-amazon.com/images/I/51eXBGX+MYL._AC_SL1500_.jpg",
-            "nombre": "Logitech G305",
-            "precio_de_venta": "500"
+          "idProducto": "1",
+          "cantidad": 2
         }
-    ],
-
-    "empleados": [
+      ],
+      "total_venta": 1000
+    }
+  ],
+  "pedidos": [
+    {
+      "estatus": "autorizado",
+      "id": "1",
+      "idProveedor": "1",
+      "productos": [
         {
-            "apellido_materno": "Uribe",
-            "apellido_paterno": "Alcaraz",
-            "curp": "AAUY011010HBCLRNA3",
-            "fecha_ini": "27/02/12",
-            "fecha_nac": "10/10/01",
-            "id": 1,
-            "no_tel": "5555555555",
-            "nombre": "Ynot Andres",
-            "rfc": "XXXXXXXXX",
-            "sexo": "Masculino"
+          "idProducto": "1",
+          "cantidad": 13
         }
-    ],
-
-
-    "proveedores": [
-        {
-            "direccion": "Av. Guacali #2350",
-            "direccion_facturacion": "Av. Guacali #23500",
-            "email": "proveedores@gmail.com",
-            "forma_pago": "Tarjeta de Crédito",
-            "id": 1,
-            "nombre": "Alfredo Figueroa Sánchez",
-            "nombre_empresa": "Proveedores Inc.",
-            "telefono": "6862568625"
-        }
-    ],
-
-    "pagos": [
-        {
-            "descripcion": "Cheque",
-            "id": 1
-        }
-    ],
-
-    "ventas": [
-        {
-            "descuento": 15,
-            "fecha_venta": "12/03/2023",
-            "id": 1,
-            "metodo_pago": 1,
-            "productos":[
-                {
-                    "idProducto": 1,
-                    "cantidad": 2
-                }
-            ],
-            "total_venta": 1000
-        }
-    ],
-
-    "pedidos": [
-        {
-            "estatus": "autorizado",
-            "id": 1,
-            "idProveedor": 1,
-            "productos": [
-                {
-                    "idProducto": 1,
-                    "cantidad": 13
-                }
-            ]
-        }
-    ],
-
-    "usuarios": [
-        {
-            "contrasena": "12345678",
-            "email": "a19490902@itmexicali.edu.mx",
-            "id": 1,
-            "nombre_usuario": "YnotAlcaraz",
-            "nombre_completo": "Ynot Andres Alcaraz Uribe",
-            "rol": "administrador"
-        }
-    ]
+      ]
+    }
+  ],
+  "usuarios": [
+    {
+      "contrasena": "12345678",
+      "email": "a19490902@itmexicali.edu.mx",
+      "id": "1",
+      "nombre_usuario": "YnotAlcaraz",
+      "nombre_completo": "Ynot Andres Alcaraz Uribe",
+      "rol": "administrador"
+    }
+  ]
 }
