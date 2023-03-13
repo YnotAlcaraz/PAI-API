@@ -64,6 +64,7 @@
   "ventas": [
     {
       "descuento": 15,
+      "empleado": "1",
       "fecha_venta": "12/03/2023",
       "id": "1",
       "metodo_pago": "1",
@@ -81,6 +82,7 @@
       "estatus": "autorizado",
       "id": "1",
       "idProveedor": "1",
+      "pago": "1",
       "productos": [
         {
           "idProducto": "1",
