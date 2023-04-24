@@ -116,11 +116,18 @@
   "ventas": [
     {
       "id": 1,
-      "fecha_venta": "13/3/2023"
+      "fecha_venta": "13/03/2023",
+      "mes": 3
     },
     {
       "fecha_venta": "23/04/2023",
+      "mes": 4,
       "id": 2
+    },
+    {
+      "fecha_venta": "24/04/2023",
+      "mes": 4,
+      "id": 3
     }
   ],
   "ventas_productos": [
@@ -168,6 +175,15 @@
       "cantidad": 8,
       "codigo_de_barras": "155519945",
       "id": 5
+    },
+    {
+      "idVenta": 3,
+      "id_del_producto": 3,
+      "categoria": 2,
+      "nombre_del_producto": 3,
+      "cantidad": 1,
+      "codigo_de_barras": "775325235",
+      "id": 6
     }
   ],
   "pedidos": [
