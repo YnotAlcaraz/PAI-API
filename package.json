@@ -1,16 +1,24 @@
 {
   "name": "pai-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Restful API para Proyecto-PAI",
   "main": "index.js",
   "scripts": {
-    "dev": "json-server --watch api.json",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YnotAlcaraz/PAI-API.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "json-server": "^0.17.2"
+  "bugs": {
+    "url": "https://github.com/YnotAlcaraz/PAI-API/issues"
+  },
+  "homepage": "https://github.com/YnotAlcaraz/PAI-API#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.1.0"
   }
 }
