@@ -11,6 +11,5 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "json-server": "^0.17.2"
   }
 }
