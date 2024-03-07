@@ -60,11 +60,9 @@ categoriasRouter.patch("/:id", async (req, res) => {
     );
     res.json(updatedCategoriaResult[0]);
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: `Ocurrió un problema al actualizar la categoria: ${err}`,
-      });
+    res.status(500).json({
+      error: `Ocurrió un problema al actualizar la categoria: ${err}`,
+    });
   }
 });
 

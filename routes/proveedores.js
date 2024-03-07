@@ -49,7 +49,7 @@ proveedoresRouter.post("/", async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ error: `Ocurrió un error al crear el proveedor ${err}` });
+      .json({ error: `Ocurrió un error al crear el proveedor: ${err}` });
   }
 });
 
@@ -95,7 +95,7 @@ proveedoresRouter.patch("/:id", async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ error: `Ocurrió un error al actualizar el producto ${err}` });
+      .json({ error: `Ocurrió un error al actualizar el producto: ${err}` });
   }
 });
 

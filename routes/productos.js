@@ -24,15 +24,8 @@ productosRouter.get("/:id", async (req, res) => {
 
 productosRouter.post("/", async (req, res) => {
   try {
-    const {
-      codigo,
-      nombre,
-      descripcion,
-      imagen,
-      precio,
-      stock,
-      categoriaId,
-    } = req.body;
+    const { codigo, nombre, descripcion, imagen, precio, stock, categoriaId } =
+      req.body;
 
     await pool.query(
       "INSERT INTO Productos (codigo, nombre, descripcion, imagen, precio, stock, categoriaId) VALUES (?,?,?,?,?,?,?)",
