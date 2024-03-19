@@ -1,10 +1,13 @@
 const express = require("express");
 const { config } = require("dotenv");
 const pool = require("../db");
+const cors = require('cors');
 
 config();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
