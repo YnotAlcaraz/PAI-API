@@ -15,6 +15,11 @@ Deshacer migraciones
 >docker-compose run app npx knex migrate:rollback
 
 
+# To do:
+* Reorganizar la estructura de las carpetas
+* Implementación de usuarios y permisos
+* Firebase Auth
+
 <!-- # Instalar dependencias
 docker-compose run app npx knex seeds:run
 
