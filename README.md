@@ -20,8 +20,9 @@ Deshacer migraciones
 
 # To do:
 
-- Reorganizar la estructura de las carpetas
-- Cambiar los raw queries por query builder
+- ~~Reorganizar la estructura de las carpetas~~ ✅
+- Implementar Objection.js o cambiar a Sequelize
+  - Cambiar los raw queries por query builder
 - Implementación de usuarios y permisos
 - Firebase Auth
 
