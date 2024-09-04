@@ -1,28 +1,38 @@
-const express = require("express");
-const pedidosRouter = express.Router();
 const pool = require("../db");
 
-pedidosRouter.get("/", async (req, res) => {
-  const [result] = await pool.query("SELECT * FROM Pedidos");
-  res.json(result);
-});
+const getPedidos = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM Pedidos");
+    return res.status(200).json(result);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: `Ocurrio un error al obtener los pedidos: ${err}` });
+  }
+};
 
-pedidosRouter.get("/:id", async (req, res) => {
-  const [result] = await pool.query(
-    `SELECT
-            *
-        FROM Pedidos
-        WHERE id = ?`,
-    [req.params.id]
-  );
+const getPedido = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      `SELECT
+              *
+          FROM Pedidos
+          WHERE id = ?`,
+      [req.params.id]
+    );
 
-  if (result.length < 1)
-    return res.status(404).json({ error: "Pedido no encontrado" });
+    if (result.length < 1)
+      return res.status(404).json({ error: "Pedido no encontrado" });
 
-  res.json(result[0]);
-});
+    return res.status(200).json(result[0]);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: `Ocurrio un error al obtener el pedido: ${err}` });
+  }
+};
 
-pedidosRouter.post("/", async (req, res) => {
+const postPedido = async (req, res) => {
   try {
     const { cantidad, entregado, productoId, proveedorId, tipoPagoId } =
       req.body;
@@ -32,21 +42,20 @@ pedidosRouter.post("/", async (req, res) => {
       [cantidad, entregado, productoId, proveedorId, tipoPagoId]
     );
 
-    res.status(200).json({ message: "Pedido agregado con éxito" });
+    return res.status(200).json({ message: "Pedido agregado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al crear el pedido: ${err}` });
+      .json({ message: `Ocurrio un error al crear el pedido: ${err}` });
   }
-});
+};
 
-pedidosRouter.patch("/:id", async (req, res) => {
+const patchPedido = async (req, res) => {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
   try {
     const { cantidad, entregado, productoId, proveedorId, tipoPagoId } =
       req.body;
-
-    const connection = await pool.getConnection();
-    await connection.beginTransaction();
 
     const [existingPedido] = await connection.query(
       "SELECT * FROM Pedidos WHERE id = ?",
@@ -103,18 +112,18 @@ pedidosRouter.patch("/:id", async (req, res) => {
       [req.params.id]
     );
 
-    res.json(updatedPedidoResult[0]);
+    return res.status(200).json(updatedPedidoResult[0]);
   } catch (err) {
     await connection.rollback();
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al actualizar el pedido: ${err}` });
+      .json({ message: `Ocurrio un error al actualizar el pedido: ${err}` });
   } finally {
     connection.release();
   }
-});
+};
 
-pedidosRouter.delete("/:id", async (req, res) => {
+const deletePedido = async (req, res) => {
   try {
     const [existingPedido] = await pool.query(
       "SELECT * FROM Pedidos WHERE id = ?",
@@ -126,12 +135,18 @@ pedidosRouter.delete("/:id", async (req, res) => {
 
     await pool.query("DELETE FROM Pedidos WHERE id = ?", [req.params.id]);
 
-    res.status(200).json({ message: "Pedido eliminado con éxito" });
+    return res.status(200).json({ message: "Pedido eliminado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al eliminar el pedido: ${err}` });
+      .json({ message: `Ocurrio un error al eliminar el pedido: ${err}` });
   }
-});
+};
 
-module.exports = pedidosRouter;
+module.exports = {
+  getPedidos,
+  getPedido,
+  postPedido,
+  patchPedido,
+  deletePedido,
+};

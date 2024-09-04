@@ -1,28 +1,38 @@
-const express = require("express");
-const empleadosRouter = express.Router();
 const pool = require("../db");
 
-empleadosRouter.get("/", async (req, res) => {
-  const [result] = await pool.query("SELECT * FROM Empleados");
-  res.json(result);
-});
+const getEmpleados = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM Empleados");
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({
+      message: `Ocurrió un error inesperado al obtener los empleados: ${err}`,
+    });
+  }
+};
 
-empleadosRouter.get("/:id", async (req, res) => {
-  const [result] = await pool.query(
-    `SELECT
-            *
-        FROM Empleados
-        WHERE id = ?`,
-    [req.params.id]
-  );
+const getEmpleado = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      `SELECT
+              *
+          FROM Empleados
+          WHERE id = ?`,
+      [req.params.id]
+    );
 
-  if (result.length < 1)
-    return res.status(404).json({ error: "Empleado no encontrado" });
+    if (result.length < 1)
+      return res.status(404).json({ error: "Empleado no encontrado" });
 
-  res.json(result[0]);
-});
+    return res.status(200).json(result[0]);
+  } catch (err) {
+    return res.status(500).json({
+      message: `Ocurrió un error inesperado al obtener el empleado: ${err}`,
+    });
+  }
+};
 
-empleadosRouter.post("/", async (req, res) => {
+const postEmpleado = async (req, res) => {
   try {
     const {
       nombre,
@@ -50,15 +60,15 @@ empleadosRouter.post("/", async (req, res) => {
         fecha_inicio,
       ]
     );
-    res.status(200).json({ message: "Empleado agregado con éxito" });
+    return res.status(200).json({ message: "Empleado agregado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al crear el empleado: ${err}` });
+      .json({ message: `Ocurrió un error al crear el empleado: ${err}` });
   }
-});
+};
 
-empleadosRouter.patch("/:id", async (req, res) => {
+const patchEmpleado = async (req, res) => {
   try {
     const {
       nombre,
@@ -102,15 +112,15 @@ empleadosRouter.patch("/:id", async (req, res) => {
       "SELECT * FROM Empleados WHERE id = ?",
       [req.params.id]
     );
-    res.json(updatedEmpleadoResult[0]);
+    return res.status(200).json(updatedEmpleadoResult[0]);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al actualizar el empleado: ${err}` });
+      .json({ message: `Ocurrió un error al actualizar el empleado: ${err}` });
   }
-});
+};
 
-empleadosRouter.delete("/:id", async (req, res) => {
+const deleteEmpleado = async (req, res) => {
   try {
     const [existingEmpleado] = await pool.query(
       "SELECT * FROM Empleados WHERE id = ?",
@@ -123,12 +133,18 @@ empleadosRouter.delete("/:id", async (req, res) => {
 
     await pool.query("DELETE FROM Empleados WHERE id = ?", [req.params.id]);
 
-    res.status(200).json({ message: "Empleado eliminado con éxito" });
+    return res.status(200).json({ message: "Empleado eliminado con éxito" });
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: `Ocurrió un error al eliminar el empleado: ${err}` });
+    return res.status(500).json({
+      message: `Ocurrio un error al eliminar el empleado: ${err}`,
+    });
   }
-});
+};
 
-module.exports = empleadosRouter;
+module.exports = {
+  getEmpleados,
+  getEmpleado,
+  postEmpleado,
+  patchEmpleado,
+  deleteEmpleado,
+};
