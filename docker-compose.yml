@@ -21,6 +21,8 @@ services:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     networks:
       - mynetwork
+    volumes:
+      - ./:/myapp
 
 networks:
   mynetwork:
