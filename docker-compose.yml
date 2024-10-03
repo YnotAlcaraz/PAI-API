@@ -1,13 +1,13 @@
-version: '3.8'
+version: "3.8"
 services:
   mysqldb:
     image: mysql
     env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_NAME
+      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQLDB_NAME}
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - ${MYSQLDB_LOCAL_PORT}:${MYSQLDB_DOCKER_PORT}
     networks:
       - mynetwork
 
@@ -15,14 +15,13 @@ services:
     build: .
     depends_on:
       - mysqldb
-    links: 
-      - mysqldb
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - ${NODE_LOCAL_PORT}:${NODE_DOCKER_PORT}
     networks:
       - mynetwork
     volumes:
       - ./:/myapp
-
+    env_file:
+      - ./.env
 networks:
   mynetwork:
