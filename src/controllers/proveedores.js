@@ -1,28 +1,38 @@
-const express = require("express");
-const proveedoresRouter = express.Router();
-const pool = require("../db");
+const pool = require("../../db");
 
-proveedoresRouter.get("/", async (req, res) => {
-  const [result] = await pool.query("SELECT * FROM Proveedores");
-  res.json(result);
-});
+const getProveedores = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM Proveedores");
+    return res.status(200).json(result);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: `Ocurrio un error al obtener los proveedores: ${err}` });
+  }
+};
 
-proveedoresRouter.get("/:id", async (req, res) => {
-  const [result] = await pool.query(
-    `SELECT
-            *
-        FROM Proveedores
-        WHERE id = ?`,
-    [req.params.id]
-  );
+const getProveedor = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      `SELECT
+              *
+          FROM Proveedores
+          WHERE id = ?`,
+      [req.params.id]
+    );
 
-  if (result.length < 1)
-    return res.status(404).json({ error: "Proveedor no encontredo" });
+    if (result.length < 1)
+      return res.status(404).json({ error: "Proveedor no encontredo" });
 
-  res.json(result[0]);
-});
+    return res.status(200).json(result[0]);
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: `Ocurrio un error al obtener el proveedor: ${err}` });
+  }
+};
 
-proveedoresRouter.post("/", async (req, res) => {
+const postProveedor = async (req, res) => {
   try {
     const {
       nombre,
@@ -45,15 +55,15 @@ proveedoresRouter.post("/", async (req, res) => {
       ]
     );
 
-    res.status(200).json({ message: "Proveedor agregado con éxito" });
+    return res.status(200).json({ message: "Proveedor agregado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al crear el proveedor: ${err}` });
+      .send({ message: `Ocurrio un error al crear el proveedor: ${err}` });
   }
-});
+};
 
-proveedoresRouter.patch("/:id", async (req, res) => {
+const patchProveedor = async (req, res) => {
   try {
     const {
       nombre,
@@ -91,15 +101,15 @@ proveedoresRouter.patch("/:id", async (req, res) => {
       "SELECT * FROM Proveedores WHERE id = ?",
       [req.params.id]
     );
-    res.json(updatedProveedorResult[0]);
+    return res.status(200).json(updatedProveedorResult[0]);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al actualizar el producto: ${err}` });
+      .json({ message: `Ocurrio un error al actualizar el proveedor: ${err}` });
   }
-});
+};
 
-proveedoresRouter.delete("/:id", async (req, res) => {
+const deleteProveedor = async (req, res) => {
   try {
     const [existingProveedor] = await pool.query(
       "SELECT * FROM Proveedores WHERE id = ?",
@@ -111,12 +121,18 @@ proveedoresRouter.delete("/:id", async (req, res) => {
 
     await pool.query("DELETE FROM Proveedores WHERE id = ?", [req.params.id]);
 
-    res.status(200).json({ message: "Proveedor eliminado con éxito" });
+    return res.status(200).json({ message: "Proveedor eliminado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al eliminar el producto: ${err}` });
+      .json({ message: `Ocurrio un error al eliminar el proveedor: ${err}` });
   }
-});
+};
 
-module.exports = proveedoresRouter;
+module.exports = {
+  getProveedores,
+  getProveedor,
+  postProveedor,
+  patchProveedor,
+  deleteProveedor,
+};

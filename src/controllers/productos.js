@@ -1,28 +1,38 @@
-const express = require("express");
-const productosRouter = express.Router();
-const pool = require("../db");
+const pool = require("../../db");
 
-productosRouter.get("/", async (req, res) => {
-  const [result] = await pool.query("SELECT * FROM Productos");
-  res.json(result);
-});
+const getProductos = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM Productos");
+    return res.status(500).json(result);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: `Ocurrio un error al obtener los productos: ${err}` });
+  }
+};
 
-productosRouter.get("/:id", async (req, res) => {
-  const [result] = await pool.query(
-    `SELECT
-            *
-        FROM Productos
-        WHERE id = ?`,
-    [req.params.id]
-  );
+const getProducto = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      `SELECT
+              *
+          FROM Productos
+          WHERE id = ?`,
+      [req.params.id]
+    );
 
-  if (result.length < 1)
-    return res.status(404).json({ error: "Producto no encontrado" });
+    if (result.length < 1)
+      return res.status(404).json({ error: "Producto no encontrado" });
 
-  res.json(result[0]);
-});
+    return res.status(200).json(result[0]);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: `Ocurrio un error al obtener el producto: ${err}` });
+  }
+};
 
-productosRouter.post("/", async (req, res) => {
+const postProducto = async (req, res) => {
   try {
     const { codigo, nombre, descripcion, imagen, precio, stock, categoriaId } =
       req.body;
@@ -32,15 +42,15 @@ productosRouter.post("/", async (req, res) => {
       [codigo, nombre, descripcion, imagen, precio, stock, categoriaId]
     );
 
-    res.status(200).json({ message: "Producto agregado con éxito" });
+    return res.status(200).json({ message: "Producto agregado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al crear el producto: ${err}` });
+      .json({ message: `Ocurrio un error al crear el producto: ${err}` });
   }
-});
+};
 
-productosRouter.patch("/:id", async (req, res) => {
+const patchProducto = async (req, res) => {
   try {
     const { codigo, nombre, descripcion, imagen, precio, stock, categoriaId } =
       req.body;
@@ -70,15 +80,15 @@ productosRouter.patch("/:id", async (req, res) => {
       "SELECT * FROM Productos WHERE id = ?",
       [req.params.id]
     );
-    res.json(updatedProductResult[0]);
+    return res.status(200).json(updatedProductResult[0]);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al actualizar el producto ${err}` });
+      .json({ message: `Ocurrio un error al actualizar el producto: ${err}` });
   }
-});
+};
 
-productosRouter.delete("/:id", async (req, res) => {
+const deleteProducto = async (req, res) => {
   try {
     const [existingProducto] = await pool.query(
       "SELECT * FROM Productos WHERE id = ?",
@@ -91,12 +101,18 @@ productosRouter.delete("/:id", async (req, res) => {
 
     await pool.query("DELETE FROM Productos WHERE id = ?", [req.params.id]);
 
-    res.status(200).json({ message: "Producto eliminado con éxito" });
+    return res.status(200).json({ message: "Producto eliminado con éxito" });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: `Ocurrió un error al eliminar el producto: ${err}` });
+      .json({ message: `Ocurrio un error al eliminar el producto: ${err}` });
   }
-});
+};
 
-module.exports = productosRouter;
+module.exports = {
+  getProductos,
+  getProducto,
+  postProducto,
+  patchProducto,
+  deleteProducto,
+};
